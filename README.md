@@ -17,7 +17,7 @@ AMI ID
 ami-06c414f3ba4a59e2f
 ```
 
-- Deep Learning AMIを利用することで，以下が全て自動実行されることを確認した．
+- Deep Learning AMIを利用することで，以下が全て自動実行されることを確認した．Dockerコンテナ環境でGPUがすぐに利用できる状態であることも確認できた．
   - NVIDIA ドライバのインストール
   - Docker のインストール
   - NVIDIA Container Toolkit のインストール
