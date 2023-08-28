@@ -23,6 +23,11 @@ ami-06c414f3ba4a59e2f
   - NVIDIA Container Toolkit のインストール
 
 - しかし，通常のCloud9からEC2を作成する場合と異なり，以下の設定が追加必要であることも確認した．
+  - EC2インスタンス作成時の設定
+    - ネットワーク設定（パブリックサブネットに割り当てる必要あり）
+    - セキュリティグループのインバウンド・アウトバウンド設定
+      - インバウンド：ssh, 0.0.0.0/0
+      - アウトバウンド：http, https, 0.0.0.0/0
   - EC2インスタンス上での作業
     - sudo apt-get update && sudo apt-get -y upgrade
     - sudo apt-get -y install nodejs
