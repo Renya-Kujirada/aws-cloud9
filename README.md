@@ -33,3 +33,6 @@ ami-06c414f3ba4a59e2f
   - cloud9上での作業
     - aws configureの設定
     - stop my environmentの設定（自動でインスタンス停止してくれる設定）
+
+- その他の差分としては，以下の点が若干利用しづらい
+  - Cloud9を利用する前に手動でEC2を起動しなければならない
