@@ -48,8 +48,9 @@ ami-06c414f3ba4a59e2f
     - パブリックサブネットに自動で割り当て
     - Elastic IPアドレスに自動で割り当て
     - python2, nodejsのinstallは自動実行
-    - TODO: セキュリティグループは既存のものを利用
-- cloud9の公開鍵を ``.ssh/authirized_key` に追記
+    - セキュリティグループはdefault vpc上に自動で作成
+- cloud9の公開鍵を `.ssh/authirized_key` に追記
+  - `echo "PUBKEYの内容" >> .ssh/authirized_key`
 - cloud9環境構築
   - aws configureの設定
   - stop my environmentの設定（自動でインスタンス停止してくれる設定）

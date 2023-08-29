@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: AWS EC2 for Deep Learning Environment with ElasticIP
+Description: AWS EC2 for Deep Learning Environment with ElasticIP, Security Group, and EC2 Key pair
 
 Parameters:
   ImageId:
@@ -16,11 +16,6 @@ Parameters:
     Description: Keypair name
     Type:        String
     Default:     my-key
-  
-  SecurityGroupIds:
-    Description:  inbound/outbound settings(Port 22 needs to be open)
-    Type:         String
-    Default:      sg-0b8540e42b30c9c95
 
   SubnetId:
     Description:  Public subnet in vpc
@@ -33,11 +28,34 @@ Parameters:
     Default:      100
 
 Resources:
+  # EC2 Key pair
   NewKeyPair:
     Type: 'AWS::EC2::KeyPair'
     Properties:
       KeyName: !Ref "KeyName"
+  
+  # Security Group
+  SSHSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable SSH access via port 22
+      SecurityGroupIngress:
+          - IpProtocol: tcp
+            FromPort: 22
+            ToPort: 22
+            CidrIp: 0.0.0.0/0
 
+  HTTPSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: HTTP access port 80
+      SecurityGroupIngress:
+          - IpProtocol: tcp
+            FromPort: 80
+            ToPort: 80
+            CidrIp: 0.0.0.0/0
+  
+  # EC2 Instance
   Instance:
     Type: "AWS::EC2::Instance"
     Properties: 
@@ -46,7 +64,8 @@ Resources:
       InstanceType: !Ref "EC2InstanceType"
       KeyName: !Ref "NewKeyPair"
       SecurityGroupIds: 
-        - !Ref "SecurityGroupIds"
+        - !GetAtt [SSHSecurityGroup, GroupId]
+        - !GetAtt [HTTPSecurityGroup, GroupId]
       SubnetId: !Ref "SubnetId"
       BlockDeviceMappings:
         - DeviceName: /dev/sda1
@@ -64,6 +83,7 @@ Resources:
           sudo apt -y install python2
           sudo reboot
 
+  # ElasticIP
   ElasticIP:
     Type: "AWS::EC2::EIP"
     Properties:
