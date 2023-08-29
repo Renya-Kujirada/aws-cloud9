@@ -41,3 +41,15 @@ ami-06c414f3ba4a59e2f
 
 - その他の差分としては，以下の点が若干利用しづらい
   - Cloud9を利用する前に手動でEC2を起動しなければならない
+
+# 2023/08/30追記
+- ec2をcloudformationで作成できるようにした．これにより，以下のステップでcloud9環境を構築可能
+  - cloudformation templateでec2, Elastic IP構築
+    - パブリックサブネットに自動で割り当て
+    - Elastic IPアドレスに自動で割り当て
+    - python2, nodejsのinstallは自動実行
+    - TODO: セキュリティグループは既存のものを利用
+- cloud9の公開鍵を ``.ssh/authirized_key` に追記
+- cloud9環境構築
+  - aws configureの設定
+  - stop my environmentの設定（自動でインスタンス停止してくれる設定）
