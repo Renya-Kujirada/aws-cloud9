@@ -60,7 +60,9 @@ Resources:
           #!/bin/sh
           sudo apt-get update && sudo apt-get -y upgrade
           sudo apt-get -y install nodejs
+          sudo /usr/local/bin/pip install --upgrade autopep8
           sudo apt -y install python2
+          sudo reboot
 
   ElasticIP:
     Type: "AWS::EC2::EIP"
