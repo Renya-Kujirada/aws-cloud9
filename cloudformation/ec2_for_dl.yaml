@@ -2,7 +2,6 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: AWS EC2 for Deep Learning Environment with ElasticIP
 
 Parameters:
-
   ImageId:
     Description: Amazon Machine Image (AMI)
     Type:        String
@@ -19,14 +18,19 @@ Parameters:
     Default:     my-key
   
   SecurityGroupIds:
-    Description:  inbound/outbound settings
+    Description:  inbound/outbound settings(Port 22 needs to be open)
     Type:         String
-    Default:      sg-003ef7d835037b1a4
+    Default:      sg-0b8540e42b30c9c95
 
   SubnetId:
     Description:  Public subnet in vpc
     Type:         String
     Default:      subnet-0c436a37fd2d96fed
+  
+  VolumeSize:
+    Description:  root volume size
+    Type:         String
+    Default:      100
 
 Resources:
   NewKeyPair:
@@ -44,6 +48,19 @@ Resources:
       SecurityGroupIds: 
         - !Ref "SecurityGroupIds"
       SubnetId: !Ref "SubnetId"
+      BlockDeviceMappings:
+        - DeviceName: /dev/sda1
+          Ebs:
+            VolumeType: gp3
+            VolumeSize: !Ref "VolumeSize"
+            DeleteOnTermination: 'false'
+            Encrypted: 'false'
+      UserData: 
+        Fn::Base64: |
+          #!/bin/sh
+          sudo apt-get update && sudo apt-get -y upgrade
+          sudo apt-get -y install nodejs
+          sudo apt -y install python2
 
   ElasticIP:
     Type: "AWS::EC2::EIP"
