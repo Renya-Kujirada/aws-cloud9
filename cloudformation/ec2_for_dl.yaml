@@ -1,0 +1,57 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS EC2 for Deep Learning Environment with ElasticIP
+
+Parameters:
+
+  ImageId:
+    Description: Amazon Machine Image (AMI)
+    Type:        String
+    Default:     ami-06c414f3ba4a59e2f
+    
+  EC2InstanceType:
+    Description: EC2 instance type on which IDE runs
+    Type:        String
+    Default:     g4dn.xlarge
+  
+  KeyName:
+    Description: Keypair name
+    Type:        String
+    Default:     my-key
+  
+  SecurityGroupIds:
+    Description:  inbound/outbound settings
+    Type:         String
+    Default:      sg-003ef7d835037b1a4
+
+  SubnetId:
+    Description:  Public subnet in vpc
+    Type:         String
+    Default:      subnet-0c436a37fd2d96fed
+
+Resources:
+  NewKeyPair:
+    Type: 'AWS::EC2::KeyPair'
+    Properties:
+      KeyName: !Ref "KeyName"
+
+  Instance:
+    Type: "AWS::EC2::Instance"
+    Properties: 
+      AvailabilityZone: "ap-northeast-1a"
+      ImageId: !Ref "ImageId"
+      InstanceType: !Ref "EC2InstanceType"
+      KeyName: !Ref "NewKeyPair"
+      SecurityGroupIds: 
+        - !Ref "SecurityGroupIds"
+      SubnetId: !Ref "SubnetId"
+
+  ElasticIP:
+    Type: "AWS::EC2::EIP"
+    Properties:
+      Domain: vpc
+
+  ElasticIPAssociate:
+    Type: AWS::EC2::EIPAssociation
+    Properties: 
+      AllocationId: !GetAtt ElasticIP.AllocationId
+      InstanceId: !Ref Instance
