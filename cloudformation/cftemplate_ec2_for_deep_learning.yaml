@@ -72,7 +72,7 @@ Resources:
           Ebs:
             VolumeType: gp3
             VolumeSize: !Ref "VolumeSize"
-            DeleteOnTermination: 'false'
+            DeleteOnTermination: 'true'
             Encrypted: 'false'
       Tags:
         - Key: "Name"
