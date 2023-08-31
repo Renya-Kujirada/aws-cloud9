@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: AWS EC2 for Deep Learning Environment with ElasticIP, Security Group, and EC2 Key pair
+Description: AWS EC2 for SSH Cloud9 Env to experiment Deep Learning with ElasticIP, Security Group, and EC2 Key pair
 
 Parameters:
   ImageId:
@@ -77,13 +77,16 @@ Resources:
       Tags:
         - Key: "Name"
           Value: !Sub "${AWS::StackName}-EC2Instance"
+      # install latest git, nodejs, python2, autopep8
       UserData: 
         Fn::Base64: |
-          #!/bin/sh
+          #!/bin/bash
+          sudo -E add-apt-repository ppa:git-core/ppa -y
           sudo apt-get update && sudo apt-get -y upgrade
           sudo apt-get -y install nodejs
-          sudo /usr/local/bin/pip install --upgrade autopep8
           sudo apt -y install python2
+          sudo /usr/local/bin/pip install --upgrade autopep8
+          git config --global init.defaultBranch main
           sudo reboot
 
   # ElasticIP
