@@ -1,69 +1,69 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 Description: AWS EC2 for SSH Cloud9 Env to experiment Deep Learning with ElasticIP, Security Group, and EC2 Key pair
 
 Parameters:
   ImageId:
     Description: Amazon Machine Image (AMI)
-    Type:        String
-    Default:     ami-06c414f3ba4a59e2f
-    
+    Type: String
+    Default: ami-06c414f3ba4a59e2f
+
   EC2InstanceType:
     Description: EC2 instance type on which IDE runs
-    Type:        String
-    Default:     g4dn.xlarge
-  
+    Type: String
+    Default: g4dn.xlarge
+
   KeyName:
     Description: Keypair name
-    Type:        String
-    Default:     my-key
+    Type: String
+    Default: my-key
 
   SubnetId:
-    Description:  Public subnet in vpc
-    Type:         String
-    Default:      subnet-0c436a37fd2d96fed
-  
+    Description: Public subnet in vpc
+    Type: String
+    Default: subnet-0c436a37fd2d96fed
+
   VolumeSize:
-    Description:  root volume size
-    Type:         String
-    Default:      100
+    Description: root volume size
+    Type: String
+    Default: 100
 
 Resources:
   # EC2 Key pair
   NewKeyPair:
-    Type: 'AWS::EC2::KeyPair'
+    Type: "AWS::EC2::KeyPair"
     Properties:
       KeyName: !Ref "KeyName"
-  
+
   # Security Group
   SSHSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Enable SSH access via port 22
       SecurityGroupIngress:
-          - IpProtocol: tcp
-            FromPort: 22
-            ToPort: 22
-            CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
 
   HTTPSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: HTTP access port 80
       SecurityGroupIngress:
-          - IpProtocol: tcp
-            FromPort: 80
-            ToPort: 80
-            CidrIp: 0.0.0.0/0
-  
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+
   # EC2 Instance
   Instance:
     Type: "AWS::EC2::Instance"
-    Properties: 
+    Properties:
       AvailabilityZone: "ap-northeast-1a"
       ImageId: !Ref "ImageId"
       InstanceType: !Ref "EC2InstanceType"
       KeyName: !Ref "NewKeyPair"
-      SecurityGroupIds: 
+      SecurityGroupIds:
         - !GetAtt [SSHSecurityGroup, GroupId]
         - !GetAtt [HTTPSecurityGroup, GroupId]
       SubnetId: !Ref "SubnetId"
@@ -72,13 +72,13 @@ Resources:
           Ebs:
             VolumeType: gp3
             VolumeSize: !Ref "VolumeSize"
-            DeleteOnTermination: 'true'
-            Encrypted: 'false'
+            DeleteOnTermination: "true"
+            Encrypted: "false"
       Tags:
         - Key: "Name"
           Value: !Sub "${AWS::StackName}-EC2Instance"
       # install latest git, nodejs, python2, autopep8
-      UserData: 
+      UserData:
         Fn::Base64: |
           #!/bin/bash
           sudo -E add-apt-repository ppa:git-core/ppa -y
@@ -97,6 +97,6 @@ Resources:
 
   ElasticIPAssociate:
     Type: AWS::EC2::EIPAssociation
-    Properties: 
+    Properties:
       AllocationId: !GetAtt ElasticIP.AllocationId
       InstanceId: !Ref Instance
