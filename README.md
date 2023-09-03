@@ -135,9 +135,9 @@ Cloud9 IDE上で本リポジトリをCloneし，リポジトリ内のシェル�
 ### Cloud9上でDocker Contanierの利用方法
 
 上記手順までで，GPUインスタンス上でDockerコンテナを利用し，コンテナ上でGPUを利用したDeep Learningの開発が可能である．以下に手順を示す．
-- `docker/build_image.sh`を実行．これにより，ECRにログインし，ECRのhuggingface(pytorch) imageをpullしbuild実行可能．
-- `docker/run_container.sh`を実行．これにより，buildしたイメージを元にコンテナを構築しログイン．
-- コンテナ内で`docker/exec_jupyterlab.sh`を実行．これにより，jupyter labをCloud9で利用可能になる．
+- [docker/build_image.sh](https://github.com/Renya-Kujirada/aws-cloud9/blob/master/docker/build_image.sh)を実行．これにより，ECRにログインし，ECRのhuggingface(pytorch) imageをpullしbuild実行可能．
+- [docker/run_container.sh](https://github.com/Renya-Kujirada/aws-cloud9/blob/master/docker/run_container.sh)を実行．これにより，buildしたイメージを元にコンテナを構築しログイン．
+- コンテナ内で[docker/exec_jupyterlab.sh](https://github.com/Renya-Kujirada/aws-cloud9/blob/master/docker/exec_jupyterlab.sh)を実行．これにより，jupyter labをCloud9で利用可能になる．
 
 ### その他
 
