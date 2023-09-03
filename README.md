@@ -14,7 +14,7 @@
 - [CloudFormation 実行手順](#cloudformation-実行手順)
 - [Cloud9のセットアップ](#cloud9のセットアップ)
   - [Cloud9環境作成](#cloud9環境作成)
-  - [Cloud9の初期セットアップ](#cloud9の初期セットアップ)
+  - [Cloud9 IDE 初期設定](#cloud9-ide-初期設定)
     - [※SSH環境のstop my environment（自動ハイバネーション機能）について](#ssh環境のstop-my-environment自動ハイバネーション機能について)
   - [Cloud9上でDocker Contanierの利用方法](#cloud9上でdocker-contanierの利用方法)
   - [その他](#その他)
@@ -112,7 +112,7 @@ ami-06c414f3ba4a59e2f
 - Cloud9からのSSH接続完了後，Open in Cloud9を押下
 - 自動でCloud9 IDEのinstallが始まる．基本的には全てデフォルトの設定でinstallして構わない．
 
-### Cloud9の初期セットアップ
+### Cloud9 IDE 初期設定
 
 Cloud9 IDE上で本リポジトリをCloneし，リポジトリ内のシェルを実行することで，容易にセットアップを実行可能である．
 
