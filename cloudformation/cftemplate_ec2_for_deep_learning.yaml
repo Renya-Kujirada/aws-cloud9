@@ -18,10 +18,9 @@ Parameters:
     Default: my-key
 
   SubnetId:
-    Description: Public subnet in vpc
+    Description: Public subnet in vpc (For example, check your pucblic-subnet ip in default vpc.)
     Type: String
-    Default: subnet-0c436a37fd2d96fed
-
+    Default: subnet-XXXXXXXXXXXXXXXXX
   VolumeSize:
     Description: root volume size
     Type: String
