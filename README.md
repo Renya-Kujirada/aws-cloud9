@@ -3,6 +3,14 @@
 [本リポジトリ](https://github.com/Renya-Kujirada/aws-cloud9/tree/master)では，AWS CloudFormationを利用し，EC2上にDeep Learning開発環境を自動構築するためのtemplate yamlを公開している．
 本ドキュメントでは，このtemplate yamlとその利用方法について解説する．加えて，Cloud9を利用し，自動構築したEC2上でクラウドネイティブに開発を行う方法についても解説する．
 
+## TL; DR <!-- omit in toc -->
+
+AWSでDeep Learning開発環境を爆速で構築するために，以下に取り組んだ．
+
+- Deep Learning AMIからEC2を自動構築するための[CloudFormation template]((https://github.com/Renya-Kujirada/aws-cloud9/blob/master/cloudformation/cftemplate_ec2_for_deep_learning.yaml))を作成した．
+- 構築したEC2を利用してCloud9 SSH環境を構築する手順を整理した．
+- Cloud9 SSH環境のフォーマッターや自動ハイパネーションの初期設定を自動実行するための[Shellスクリプト](https://github.com/Renya-Kujirada/aws-cloud9/blob/master/project_settings/setup_preference.sh)を作成した．
+
 ## 目次 <!-- omit in toc -->
 
 - [背景](#背景)
@@ -21,7 +29,7 @@
 
 ## 背景
 
-Cloud9には，EC2環境とSSH環境という2種類のリソースの種別が存在する．EC2環境とは，EC2インスタンスを新規作成し，作成したEC2インスタンスにSSM Session Managerによって接続する方式のことである．SSH環境とは，既存のEC2インスタンスSSHに接続する方式のことである．
+Cloud9には，EC2環境とSSH環境という2種類のリソースの種別が存在する．EC2環境とは，EC2インスタンスを新規作成し，作成したEC2インスタンスにSSM Session Managerによって接続する方式のことである．SSH環境とは，既存のEC2インスタンスにSSH接続する方式のことである．
 
 EC2環境の場合，EC2のライフサイクルを全てCloud9が自動で管理するため，ユーザ側での管理負担が少ないメリットがある．また，EC2環境では，AWS Managed Temporary Credentials(AMTC)を利用することができ，実質ほぼ無制限に他のリソースとの連携が可能である．このため，通常Cloud9を利用する場合，EC2環境で環境構築することが多い．[[1]](https://docs.aws.amazon.com/ja_jp/cloud9/latest/user-guide/ssh-settings.html)[[2]](https://docs.aws.amazon.com/ja_jp/cloud9/latest/user-guide/ec2-env-versus-ssh-env.html)
 
@@ -42,7 +50,7 @@ EC2環境の場合，EC2のライフサイクルを全てCloud9が自動で管�
 
 ### 概要
 
-[今回作成したCloudFormation template](https://github.com/Renya-Kujirada/aws-cloud9/blob/master/cloudformation/cftemplate_ec2_for_deep_learning.yaml)では，Deep Learning AMIを利用したEC2インスタンスを構築する．その後，作成したEC2にSSH接続する形（SSH環境）でCloud9を利用することを想定している．
+[今回作成したCloudFormation template](https://github.com/Renya-Kujirada/aws-cloud9/blob/master/cloudformation/cftemplate_ec2_for_deep_learning.yaml)では，Deep Learning AMIからEC2インスタンスを構築する．その後，作成したEC2にSSH接続する形（SSH環境）でCloud9を利用することを想定している．
 なお，SSH接続するために，以下に示す工夫を施している．
 - EC2 Key pairを作成
 - 静的なIPアドレス（Elastic IP）をEC2にアタッチ
