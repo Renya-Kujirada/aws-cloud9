@@ -3,7 +3,7 @@
 [本リポジトリ](https://github.com/Renya-Kujirada/aws-cloud9/tree/master)では，AWS CloudFormationを利用し，EC2上にDeep Learning開発環境を自動構築するためのtemplate yamlを公開している．
 本ドキュメントでは，このtemplate yamlとその利用方法について解説する．加えて，Cloud9を利用し，自動構築したEC2上でクラウドネイティブに開発を行う方法についても解説する．
 
-## TL; DR <!-- omit in toc -->
+## TL;DR <!-- omit in toc -->
 
 AWSでDeep Learning開発環境を爆速で構築するために，以下に取り組んだ．
 
@@ -122,8 +122,9 @@ Cloud9 IDE上で本リポジトリをCloneし，リポジトリ内のシェル�
 - [project_settings/setup_preference.sh](https://github.com/Renya-Kujirada/aws-cloud9/blob/master/project_settings/setup_preference.sh)を実行．以下の設定を自動実行する．
   - stop my environmentの設定（自動でインスタンスを停止してくれる設定）
   - python formatterの設定（ファイル保存時に自動でautopep8を実行する設定）
-- その他，適宜aws configureを設定すると良い．
-  - AWS CLI経由で実行すること．（手順は割愛する）
+- その他，適宜以下を設定すると良い．（手順は割愛する）
+  - aws configure（[手順](https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/cli-configure-files.html)）
+  - CodeCommit の HTTPS Git の認証情報（[手順](https://docs.aws.amazon.com/ja_jp/codecommit/latest/userguide/setting-up-gc.html)）
 
 #### ※SSH環境のstop my environment（自動ハイバネーション機能）について
 
